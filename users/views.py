@@ -1,5 +1,6 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.hashers import make_password, check_password
 
 from .models import User
 
@@ -30,14 +31,17 @@ def register(request):
 def usr_reg_progress(request):
     # Need to check if the user info is already in the database
     if request.method == 'POST':
-        user = User(first_name=request.POST['first-name'],
-                    last_name=request.POST['last-name'],
-                    username=request.POST['username'],
-                    password=request.POST['password'],
-                    email=request.POST['email'],
-                    )
-        user.save();
-        return HttpResponseRedirect(reverse('hyper:users'))
+        if request.POST['password'] == request.POST['re-password']:
+            user = User(first_name=request.POST['first-name'],
+                        last_name=request.POST['last-name'],
+                        username=request.POST['username'],
+                        password=make_password(request.POST['password']),
+                        email=request.POST['email'],
+                        )
+            user.save();
+            return HttpResponseRedirect(reverse('hyper:users'))
+        else:
+            return HttpResponseRedirect(reverse('hyper:register'))
 
 
 def usr_login(request):
@@ -45,5 +49,14 @@ def usr_login(request):
 
 
 def usr_login_progress(request):
-    # Need to check if the username and password match
-    return HttpResponseRedirect(reverse('hyper:users'))
+    if request.method == 'POST':
+        users_list = User.objects.order_by('id')
+        for user in users_list:
+            if user.username == request.POST['username']:
+                if check_password(make_password(request.POST['password']), user.password):
+                    # Success to get access. Need to send login token
+                    return HttpResponseRedirect(reverse('hyper:users'))
+                else:
+                    return HttpResponseRedirect(reverse('hyper:login'))
+            else:
+                return HttpResponseRedirect(reverse('hyper:login'))
