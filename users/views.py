@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth import authenticate, login, logout
 
 from .models import User
 
@@ -51,12 +52,12 @@ def usr_login(request):
 def usr_login_progress(request):
     if request.method == 'POST':
         users_list = User.objects.order_by('id')
-        for user in users_list:
-            if user.username == request.POST['username']:
-                if check_password(make_password(request.POST['password']), user.password):
-                    # Success to get access. Need to send login token
-                    return HttpResponseRedirect(reverse('hyper:users'))
-                else:
-                    return HttpResponseRedirect(reverse('hyper:login'))
-            else:
-                return HttpResponseRedirect(reverse('hyper:login'))
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse('hyper:users'))
+        else:
+            return HttpResponseRedirect(reverse('hyper:login'))
