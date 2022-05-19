@@ -1,0 +1,90 @@
+{% extends 'users/user-registration.html' %}
+
+{% block registrationHeader %}
+<div class="text-center w-75 m-auto">
+    <h4 class="text-dark-50 text-center mt-0 fw-bold">Free Sign Up</h4>
+    <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute </p>
+</div>
+{% endblock %}
+
+{% block registrationForm %}
+<!-- User information form -->
+<form action="progress/" class="needs-validation" novalidate method="POST">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label class="form-label" for="validationFirstname">First name</label>
+    <input type="text" class="form-control" id="validationFirstname" placeholder="First name" name="first-name" required>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="validationLastname">Last name</label>
+    <input type="text" class="form-control" id="validationLastname" placeholder="Last name" name="last-name" required>
+    <div class="valid-feedback">
+        Looks good!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="validationCustomUsername">Username</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="validationCustomUsername" placeholder="Username"
+          aria-describedby="inputGroupPrepend" name="username" required>
+      <div class="invalid-feedback">
+          Please choose a username.
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="validationPassword">Password</label>
+      <div class="input-group input-group-merge">
+          <input type="password" class="form-control" id="validationPassword" placeholder="Password" name="password" required>
+          <div class="input-group-text" data-password="false"><span class="password-eye"></span></div>
+      </div>
+
+    <div class="invalid-feedback">
+        Please provide a valid password.
+    </div>
+  </div>
+  <div class="mb-3">
+      <label class="form-label" for="validationPasswordCheck">Re-password</label>
+      <div class="input-group input-group-merge">
+          <input type="password" class="form-control" id="validationPasswordCheck" placeholder="Re-password" name="re-password" required>
+          <div class="input-group-text" data-password="false"><span class="password-eye"></span></div>
+      </div>
+    <div class="invalid-feedback">
+        Please provide a valid password.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="validationEmail">Email address</label>
+    <input type="email" class="form-control" id="validationEmail"
+           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email address" name="email" required>
+    <div class="invalid-feedback">
+        Please provide a valid email address.
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="invalidCheck" required>
+      <label class="form-check-label form-label" for="invalidCheck">Agree to <a href="#">terms
+          and conditions</a></label>
+      <div class="invalid-feedback">
+          You must agree before submitting.
+      </div>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary" type="submit">Sign Up</button>
+  </div>
+</form>
+{% endblock %}
+
+{% block login %}
+    <div class="col-12 text-center">
+    <p class="text-muted">
+        Already have account?
+        <a href="/home/user-login/" class="text-muted ms-1"><b>Log In</b></a>
+    </p>
+    </div>
+{% endblock %}

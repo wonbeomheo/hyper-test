@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register | Hyper Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% load static %}
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="{% static 'users/images/favicon.ico' %}">
+    <!-- bundle css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/app.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/icons.min.css' %}" id="app-style">
+
+    <!-- Third party css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/vendor/jquery-jvectormap-1.2.2.css' %}">
+</head>
+  <body class="authentication-bg" data-layout-config="{darkMode:false}" data-layout-color="light">
+      <div class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5">
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-xxl-4 col-lg-5">
+                      <!-- Card box -->
+                      <div class="card">
+                          <!-- LOGO -->
+                          <div class="card-header pt-4 pb-4 text-center bg-primary">
+                              <a href="/home/">
+                                  <span>
+                                      <img src="{% static 'users/images/logo.png' %}" alt height="18">
+                                  </span>
+                              </a>
+                          </div>
+                          <div class="card-body p-4">
+                              {% block registrationHeader %}{% endblock %}
+                              {% block registrationForm %}{% endblock %}
+                              {% block loginHeader %}{% endblock %}
+                              {% block loginForm %}{% endblock %}
+                          </div>
+
+                      </div>
+                      <!-- Login row -->
+                      <div class="row mt-3">
+                          {% block login %}{% endblock %}
+                          {% block signup %}{% endblock %}
+                      </div>
+              </div>
+          </div>
+      </div>
+
+      <!-- bundle -->
+      <script src="{% static 'users/js/vendor.min.js' %}"></script>
+      <script src="{% static 'users/js/app.min.js' %}"></script>
+
+      <!-- third party js -->
+      <script src="{% static 'users/js/vendor/apexcharts.min.js' %}"></script>
+      <script src="{% static 'users/js/vendor/jquery-jvectormap-1.2.2.min.js' %}"></script>
+      <script src="{% static 'users/js/vendor/jquery-jvectormap-world-mill-en.js' %}"></script>
+  </body>
+</html>
