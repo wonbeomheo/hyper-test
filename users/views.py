@@ -1,63 +1,73 @@
-from django.shortcuts import render, reverse
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 from .models import User
 
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    context = {'user': request.user}
+    return render(request, 'index.html', context)
 
 
 def analytics(request):
-    return render(request, 'data/analytics.html')
+    context = {'user': request.user}
+    return render(request, 'data/analytics.html', context)
 
 
 def projects(request):
-    return render(request, 'data/dashboard-projects.html')
+    context = {'user': request.user}
+    return render(request, 'data/dashboard-projects.html', context)
 
 
 def users(request):
-    user_list = User.objects.order_by('id')
-    context = {'user_list': user_list}
+    user_list = User.objects.filter(is_superuser=False).order_by('id')
+    context = {'user_list': user_list,
+               'user': request.user,
+               }
     return render(request, 'users/users.html', context)
 
 
 def register(request):
-    return render(request, 'users/users-registration-form.html')
-
-
-def usr_reg_progress(request):
-    # Need to check if the user info is already in the database
     if request.method == 'POST':
-        if request.POST['password'] == request.POST['re-password']:
-            user = User(first_name=request.POST['first-name'],
-                        last_name=request.POST['last-name'],
-                        username=request.POST['username'],
-                        password=make_password(request.POST['password']),
-                        email=request.POST['email'],
-                        )
-            user.save();
-            return HttpResponseRedirect(reverse('hyper:users'))
-        else:
-            return HttpResponseRedirect(reverse('hyper:register'))
+        username = request.POST['username']
+        firstname = request.POST['first-name']
+        lastname = request.POST['last-name']
+        email = request.POST['email']
+        pass1 = request.POST['password']
+        pass2 = request.POST['re-password']
+
+        user = User.objects.create_user(username, email, pass1)
+        user.first_name = firstname
+        user.last_name = lastname
+
+        user.save()
+        messages.success(request, "Your account has been successfully created.")
+        return redirect('hyper:login')
+    else:
+        return render(request, 'users/users-registration-form.html')
 
 
 def usr_login(request):
-    return render(request, 'users/login.html')
-
-
-def usr_login_progress(request):
     if request.method == 'POST':
-        users_list = User.objects.order_by('id')
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            login(request, user)
-            return HttpResponseRedirect(reverse('hyper:users'))
+            login(request, user=user)
+            return redirect('hyper:users')
         else:
-            return HttpResponseRedirect(reverse('hyper:login'))
+            messages.error(request, 'ID or Password was incorrect.')
+            return redirect('hyper:login')
+    else:
+        return render(request, 'users/login.html')
+
+
+def signout(request):
+    logout(request)
+    messages.success(request, "Logged Out Successfully.")
+    return redirect('hyper:home')

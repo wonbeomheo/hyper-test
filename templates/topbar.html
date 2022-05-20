@@ -242,69 +242,73 @@
         <i class="dripicons-gear noti-icon"></i>
       </a>
     </li>
-    <!-- User dropdown menu -->
-    <li class="dropdown notification-list">
-      <a href="#" class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-        <span class="account-user-avatar">
-          <img src="{% static 'users/images/users/avatar-1.jpg' %}" alt="user-image" class="rounded-circle">
-        </span>
-        <span>
-          <span class="account-user-name">Dominic Keller</span>
-          <span class="account-position">Founder</span>
-        </span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
-        <!-- item-->
-        <div class=" dropdown-header noti-title">
+    {% if user.is_authenticated %}
+      <!-- User dropdown menu -->
+      <li class="dropdown notification-list">
+        <a href="#" class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+          <span class="account-user-avatar">
+            <img src="{% static 'users/images/users/avatar-1.jpg' %}" alt="user-image" class="rounded-circle">
+          </span>
+          <span>
+            <span class="account-user-name">{{ user.first_name }} {{ user.last_name }}</span>
+            <span class="account-position">{{ user.position }}</span>
+          </span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+          <!-- item-->
+          <div class=" dropdown-header noti-title">
+              <h6 class="text-overflow m-0">Welcome !</h6>
+          </div>
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="mdi mdi-account-circle me-1"></i>
+              <span>My Account</span>
+          </a>
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="mdi mdi-account-edit me-1"></i>
+              <span>Settings</span>
+          </a>
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="mdi mdi-lifebuoy me-1"></i>
+              <span>Support</span>
+          </a>
+          <!-- item-->
+          <a href="javascript:void(0);" class="dropdown-item notify-item">
+              <i class="mdi mdi-lock-outline me-1"></i>
+              <span>Lock Screen</span>
+          </a>
+          <!-- item-->
+          <a href="/signout/" class="dropdown-item notify-item">
+              <i class="mdi mdi-logout me-1"></i>
+              <span>Sign Out</span>
+          </a>
+        </div>
+      </li>
+    {% else %}
+      <li class="dropdown notification-list">
+        <a href="#" class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
+          <i class="dripicons-user noti-icon"></i>
+          <span class="account-user-name">Account</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
+          <!-- Login menu -->
+          <div class=" dropdown-header noti-title">
             <h6 class="text-overflow m-0">Welcome !</h6>
-        </div>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
+          </div>
+          <a href="/user-login/" class="dropdown-item notify-item">
             <i class="mdi mdi-account-circle me-1"></i>
-            <span>My Account</span>
-        </a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
+            <span>Sign In</span>
+          </a>
+          <a href="/user-registration/" class="dropdown-item notify-item">
             <i class="mdi mdi-account-edit me-1"></i>
-            <span>Settings</span>
-        </a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-            <i class="mdi mdi-lifebuoy me-1"></i>
-            <span>Support</span>
-        </a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-            <i class="mdi mdi-lock-outline me-1"></i>
-            <span>Lock Screen</span>
-        </a>
-        <!-- item-->
-        <a href="javascript:void(0);" class="dropdown-item notify-item">
-            <i class="mdi mdi-logout me-1"></i>
-            <span>Logout</span>
-        </a>
-    </div>
-    </li>
-    <li class="dropdown notification-list">
-      <a href="#" class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" role="button" aria-haspopup="false" aria-expanded="false">
-        <i class="dripicons-user noti-icon"></i>
-        <span class="account-user-name">Account</span>
-      </a>
-      <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown">
-        <!-- Login menu -->
-        <div class=" dropdown-header noti-title">
-          <h6 class="text-overflow m-0">Welcome !</h6>
+            <span>Sign Up</span>
+          </a>
         </div>
-        <a href="/home/user-login/" class="dropdown-item notify-item">
-          <i class="mdi mdi-account-circle me-1"></i>
-          <span>Sign In</span>
-        </a>
-        <a href="/home/user-registration/" class="dropdown-item notify-item">
-          <i class="mdi mdi-account-edit me-1"></i>
-          <span>Sign Up</span>
-        </a>
-      </div>
-    </li>
+      </li>
+    {% endif %}
+
     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated topbar-dropdown-menu profile-dropdown"></div>
   </ul>
   <button class="button-menu-mobile open-left">

@@ -11,7 +11,7 @@
 
 {% block registrationForm %}
 <!-- User information form -->
-<form action="progress/" class="needs-validation" novalidate method="POST">
+<form action="/user-registration/" class="needs-validation" novalidate method="POST">
   {% csrf_token %}
   <div class="mb-3">
     <label class="form-label" for="validationFirstname">First name</label>
@@ -86,7 +86,7 @@
     <div class="col-12 text-center">
     <p class="text-muted">
         Already have account?
-        <a href="/home/user-login/" class="text-muted ms-1"><b>Log In</b></a>
+        <a href="/user-login/" class="text-muted ms-1"><b>Log In</b></a>
     </p>
     </div>
 {% endblock %}
